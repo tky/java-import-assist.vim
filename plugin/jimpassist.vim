@@ -30,7 +30,6 @@ function! jimpassist#format_package(filename)
   let a:index = 0
   for p in a:splitted
     if (p =~ '\v(com|org)')
-      echo a:splitted
       return join(a:splitted[a:index : -2], ".")
     endif
     let a:index = a:index + 1
