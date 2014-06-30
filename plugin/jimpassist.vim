@@ -25,12 +25,13 @@ function! jimpassist#insert_import(line, package)
 endfunction
 
 function! jimpassist#format_package(filename)
-  let a:splitted = split(a:filename, "/")
+  let a:splitted = split(a:filename, "[/.]")
 
   let a:index = 0
   for p in a:splitted
     if (p =~ '\v(com|org)')
-      return join(a:splitted[a:index : -1], ".")
+      echo a:splitted
+      return join(a:splitted[a:index : -2], ".")
     endif
     let a:index = a:index + 1
   endfor
