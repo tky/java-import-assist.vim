@@ -11,7 +11,12 @@ function! jimpassist#find_import_class(target_class)
   if len(a:file_list) > 0
     return jimpassist#format_package(a:file_list[0])
   else
-    return "" 
+    let a:file_list = jimpassist#find_class_from_file(a:target_class)
+    if len(a:file_list) > 0
+      return jimpassist#format_package(a:file_list[0])
+    else
+      return "" 
+    endif
   endif
 endfunction
 
@@ -78,4 +83,19 @@ function! jimpassist#find_last_import_position()
     endif
   endwhile
   return lastlineno
+endfunction
+
+function! jimpassist#find_class_from_file(target_class)
+  let a:classes = []
+  let a:pattern = a:target_class . "$"
+  for class in jimpassist#read_file()
+    if (class =~# a:pattern)
+      call add(a:classes, class)
+    endif
+  endfor
+  return a:classes
+endfunction
+
+function! jimpassist#read_file()
+  return readfile($HOME . '/.vim/java_import.txt')
 endfunction
